@@ -13,51 +13,51 @@ function showSub() {
 }
 
 function language() {
-    localStorage.setItem("language", document.querySelector('input[name="language"]:checked').value);
-    console.log(localStorage.getItem("language"));
+    sessionStorage.setItem("language", document.querySelector('input[name="language"]:checked').value);
+    console.log(sessionStorage.getItem("language"));
 }
 
 function genre() {
-    localStorage.setItem("genre", document.querySelector('input[name="genre"]:checked').value);
-    console.log(localStorage.getItem("numMovie"));
-    console.log(localStorage.getItem("genre"));
+    sessionStorage.setItem("genre", document.querySelector('input[name="genre"]:checked').value);
+    console.log(sessionStorage.getItem("numMovie"));
+    console.log(sessionStorage.getItem("genre"));
 }
 
 function date() {
-    localStorage.setItem("date", document.querySelector('input[name="date"]:checked').value);
-    console.log(localStorage.getItem("numMovie"));
-    console.log(localStorage.getItem("genre"));
-    console.log(localStorage.getItem("date"));
+    sessionStorage.setItem("date", document.querySelector('input[name="date"]:checked').value);
+    console.log(sessionStorage.getItem("numMovie"));
+    console.log(sessionStorage.getItem("genre"));
+    console.log(sessionStorage.getItem("date"));
 }
 
 function getStream() {
-    localStorage.setItem("stream", document.querySelector('input[name="stream"]:checked').value);
-    console.log(localStorage.getItem("numMovie"));
-    console.log(localStorage.getItem("genre"));
-    console.log(localStorage.getItem("date"));
-    console.log(localStorage.getItem("stream"));
+    sessionStorage.setItem("stream", document.querySelector('input[name="stream"]:checked').value);
+    console.log(sessionStorage.getItem("numMovie"));
+    console.log(sessionStorage.getItem("genre"));
+    console.log(sessionStorage.getItem("date"));
+    console.log(sessionStorage.getItem("stream"));
 }
   
 function getRating() {
-    localStorage.setItem("rating", document.querySelector('input[name="rating"]:checked').value);
-    console.log(localStorage.getItem("rating"));
+    sessionStorage.setItem("rating", document.querySelector('input[name="rating"]:checked').value);
+    console.log(sessionStorage.getItem("rating"));
 }
 
 
 function getChoices() {
     options = {};
-    if (localStorage.getItem('language') == 'en') {options["vote_count.gte"] = 300;}
+    if (sessionStorage.getItem('language') == 'en') {options["vote_count.gte"] = 300;}
     else {options["vote_count.gte"] = 0;}
-    options["vote_average.gte"] = parseInt(localStorage.getItem('rating'),10);
+    options["vote_average.gte"] = parseInt(sessionStorage.getItem('rating'),10);
     //console.log(options["vote_count.gte"])
-    options.with_original_language = options.language = localStorage.getItem('language');
+    options.with_original_language = options.language = sessionStorage.getItem('language');
     //options.primary_release_year = range(1980, 1990, 1); //range of release year
-    options["primary_release_date.gte"] = localStorage.getItem('date');
-    //chosenGenres = localStorage.getItem("genres");
-    options.with_genres = parseInt(localStorage.getItem('genre'),10);             //list of genres
+    options["primary_release_date.gte"] = sessionStorage.getItem('date');
+    //chosenGenres = sessionStorage.getItem("genres");
+    options.with_genres = parseInt(sessionStorage.getItem('genre'),10);             //list of genres
     //options.with_genres = [10749 || 16 || 12];           //list of genres
     options.watch_region = "CA";       
-    options.with_watch_providers = parseInt(localStorage.getItem('stream'),10);               //list of streaming services (see discord #back end for IDs) 
+    options.with_watch_providers = parseInt(sessionStorage.getItem('stream'),10);               //list of streaming services (see discord #back end for IDs) 
     //options.with_watch_providers = [8 || 9];               //list of streaming services (see discord #back end for IDs) 
     theMovieDb.discover.getMovies(options, successFunction, errorFunction);
 }
@@ -72,7 +72,7 @@ function infoSuccess(info){
 }
 */
 // "genres" "rate" "streaming" "date"
-//localStorage.getItem("genres")
+//sessionStorage.getItem("genres")
 function successFunction(movies){
     movies = JSON.parse(movies);
     length = movies.total_results;
@@ -112,7 +112,7 @@ function successFunction(movies){
     document.getElementById("title").innerText = title;
     document.getElementById("date").innerText = releaseDate;
     document.getElementById("rating").innerText = rating;
-    temp = parseInt(localStorage.getItem("genre"),10);
+    temp = parseInt(sessionStorage.getItem("genre"),10);
     var genreee;
     if(temp == 28){
         genreee = "Action";
