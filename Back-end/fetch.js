@@ -93,7 +93,7 @@ function successFunction(movies){
     genreID = movies.results[movieNumber].genre_ids[0];
     overview = movies.results[movieNumber].overview;    }
     catch(err){
-        document.location=("welcome page.html");
+        document.location=("index.html");
         alert("Sorry, no movie found for your criteria! Want to try again?")
     }
     
