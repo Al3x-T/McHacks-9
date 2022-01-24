@@ -78,7 +78,8 @@ function successFunction(movies){
     length = movies.total_results;
     console.log(length);
     //length = Object.keys(movies).length;
-    movieNumber = Math.floor(Math.random() * (Math.min(20,length/10)));
+    movieNumber = Math.floor(Math.random() * (Math.min(20,length-1)));
+    //movieNumber = Math.floor(Math.random() * (length/1.2));
     //getInfo(movies.results[movieNumber].id);
     console.log(movieNumber);
 
