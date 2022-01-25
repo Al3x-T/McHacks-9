@@ -4,6 +4,9 @@
 //options = {"primary_release_year":2010}
 //const range = (start, stop, step) => Array.from({ length: (stop - start) / step + 1}, (_, i) => start + (i * step));
 
+var options = {};
+var pageNumber = 1;
+
 function hideSub() {
     document.getElementById("subquestion1").style.visibility = "hidden";
 }
@@ -13,6 +16,7 @@ function showSub() {
 }
 
 function language() {
+    sessionStorage.pageNumber = 1;
     sessionStorage.setItem("language", document.querySelector('input[name="language"]:checked').value);
     console.log(sessionStorage.getItem("language"));
 }
@@ -45,7 +49,9 @@ function getRating() {
 
 
 function getChoices() {
-    options = {};
+    //options = {};
+    options.page = sessionStorage.pageNumber;
+    console.log(options.page);
     if (sessionStorage.getItem('language') == 'en') {options["vote_count.gte"] = 300;}
     else {options["vote_count.gte"] = 0;}
     options["vote_average.gte"] = parseInt(sessionStorage.getItem('rating'),10);
@@ -85,6 +91,12 @@ function infoSuccess(info){
 //sessionStorage.getItem("genres")
 function successFunction(movies){
     movies = JSON.parse(movies);
+    sessionStorage.pageNumber = Math.floor((Math.random() * (movies.total_pages-1))+1); //chosen page
+    console.log(sessionStorage.pageNumber);
+    /*while (sessionStorage.pageNumber < 1){
+        sessionStorage.pageNumber = Math.floor((Math.random() * (movies.total_pages))); //chosen page
+    }*/
+    //console.log(page);
     length = movies.total_results;
     console.log(length);
     //length = Object.keys(movies).length;
@@ -108,6 +120,17 @@ function successFunction(movies){
         alert("Sorry, no movie found for your criteria! Want to try again?")
     }
     
+    console.log(overview);
+    if (overview.length > 325){
+        var maxLength = 325; // maximum number of characters to extract
+        //trim the string to the maximum length
+        var trimmedOverview = overview.substr(0, maxLength);
+        //re-trim if we are in the middle of a word
+        trimmedOverview = trimmedOverview.substr(0, Math.min(trimmedOverview.length, trimmedOverview.lastIndexOf(".")))+".";
+        if (trimmedOverview.length > 50) {overview = trimmedOverview}
+    }
+    console.log(overview);
+
     console.log(title+'\n'+poster+'\n'+genreID+'\n'+overview);
 
     var img = new Image(); 
@@ -150,6 +173,7 @@ function successFunction(movies){
 }
 
 function errorFunction(result){
+    console.log(options.page);
     alert("error");
 }
 /*if (releaseYear){
