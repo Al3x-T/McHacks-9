@@ -2,7 +2,7 @@
 //const base_url = 'https://api.themoviedb.org/3/discover/movie/';
 //const api_url = base_url + "?api_key=" + api_key;
 //options = {"primary_release_year":2010}
-const range = (start, stop, step) => Array.from({ length: (stop - start) / step + 1}, (_, i) => start + (i * step));
+//const range = (start, stop, step) => Array.from({ length: (stop - start) / step + 1}, (_, i) => start + (i * step));
 
 function hideSub() {
     document.getElementById("subquestion1").style.visibility = "hidden";
@@ -61,7 +61,7 @@ function getChoices() {
     //options.with_watch_providers = [8 || 9];               //list of streaming services (see discord #back end for IDs) 
     while(true){
         try{
-            options.page = Math.floor(Math.random() * (10)); //chosen page
+            options.page = Math.floor((Math.random() * (10))+1); //chosen page
             theMovieDb.discover.getMovies(options, successFunction, errorFunction);
             break
         } catch(err){
