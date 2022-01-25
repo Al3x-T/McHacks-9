@@ -59,15 +59,17 @@ function getChoices() {
     options.watch_region = "CA";       
     options.with_watch_providers = parseInt(sessionStorage.getItem('stream'),10);   //list of streaming services (see discord #back end for IDs) 
     //options.with_watch_providers = [8 || 9];               //list of streaming services (see discord #back end for IDs) 
+    theMovieDb.discover.getMovies(options, successFunction, errorFunction);
+    /*
     while(true){
         try{
             options.page = Math.floor((Math.random() * (10))+1); //chosen page
-            theMovieDb.discover.getMovies(options, successFunction, errorFunction);
+            theMovieDb.discover.getMovies(options, successFunction, getChoices);
             break
         } catch(err){
             continue;
         }
-    }
+    }*/
 }
 /*
 function getInfo(id){
