@@ -1,8 +1,10 @@
 
 body {
     background: linear-gradient(80deg, #F9B1F8 20%, #66BACE 80%);
+    background-attachment: fixed;
     font-family: monospace;
   }
+
 h1{
     color: black;
     font-size: 80px;
