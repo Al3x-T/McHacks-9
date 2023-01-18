@@ -28,7 +28,24 @@ function genre() {
 }
 
 function date() {
-    sessionStorage.setItem("date", document.querySelector('input[name="date"]:checked').value);
+    var years = document.querySelector('input[name="date"]:checked').value;
+    //get current date
+    var current = new Date();
+    if (years == "1") delta = 1;
+    else if (years == "5") delta = 5;
+    else if (years == "10") delta = 10;
+    else if (years == "20") delta = 20;
+    else if (years == "40") delta = 40;
+    else if (years == "100") delta = 100;
+
+    var minDate = new Date(current.getFullYear() - delta, current.getMonth(), current.getDate());
+
+    //format date as YYYY-MM-DD
+    minDate = minDate.toISOString().split('T')[0];
+
+    sessionStorage.setItem("date", minDate);
+
+    //sessionStorage.setItem("date", document.querySelector('input[name="date"]:checked').value);
     console.log(sessionStorage.getItem("numMovie"));
     console.log(sessionStorage.getItem("genre"));
     console.log(sessionStorage.getItem("date"));
