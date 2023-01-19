@@ -154,6 +154,7 @@ function successFunction(movies){
     var div = document.getElementById("suggestion1"); 
  
     img.onload = function() { 
+    img.height = 500;
     div.appendChild(img); 
     }; 
  
