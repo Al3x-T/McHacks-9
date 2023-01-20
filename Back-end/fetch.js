@@ -7,6 +7,7 @@
 var options = {};
 var pageNumber = 1;
 
+
 function hideSub() {
     document.getElementById("subquestion1").style.visibility = "hidden";
 }
@@ -60,6 +61,11 @@ function getStream() {
 }
   
 function getRating() {
+    //var array = [[],[]];
+    //sessionStorage.setItem("previousMovies", JSON.stringify(array));
+    var empty = [];
+    sessionStorage.setItem("previousMovies", JSON.stringify(empty));
+
     sessionStorage.setItem("rating", document.querySelector('input[name="rating"]:checked').value);
     console.log(sessionStorage.getItem("rating"));
 }
@@ -108,16 +114,52 @@ function infoSuccess(info){
 //sessionStorage.getItem("genres")
 function successFunction(movies){
     movies = JSON.parse(movies);
-    sessionStorage.pageNumber = Math.floor((Math.random() * (movies.total_pages-1))+1); //chosen page
+
+    console.log(movies.page);
     console.log(sessionStorage.pageNumber);
+
+    length = movies.total_results;
+    console.log(length);
+
+    sessionStorage.pageNumber = Math.floor((Math.random() * (movies.total_pages-1))+1); //chosen page
+
+    movieNumber = Math.floor(Math.random() * (Math.min(20,length-1)));
+    console.log(movieNumber);
+
     /*while (sessionStorage.pageNumber < 1){
         sessionStorage.pageNumber = Math.floor((Math.random() * (movies.total_pages))); //chosen page
     }*/
     //console.log(page);
-    length = movies.total_results;
-    console.log(length);
+
     //length = Object.keys(movies).length;
-    movieNumber = Math.floor(Math.random() * (Math.min(20,length-1)));
+
+    //prevMovies = JSON.parse(sessionStorage.getItem("previousMovies"));
+
+    /*done = false;
+    count = 0;
+    for (i = 0; i < prevMovies.length; i++){
+        if (prevMovies[i][0] == sessionStorage.pageNumber && prevMovies[i][1] == movieNumber){
+            console.log("repeated");
+            count += 1;
+            sessionStorage.pageNumber = Math.floor((Math.random() * (movies.total_pages-1))+1);
+            movieNumber = Math.floor(Math.random() * (Math.min(20,length-1)));
+            i = 0; 
+            if (prevMovies.length > length || count > 100) done = true;
+            document.location=("suggestions.html")
+        }
+        if (done){
+            document.location=("index.html");
+            alert("Sorry, no more movies found for your criteria! Want to try again?");
+            break;
+        }
+    }*/
+    
+    //console.log(prevMovies.length);
+    //prevMovies.push([sessionStorage.pageNumber, movieNumber]);
+    //console.log(prevMovies);
+    //sessionStorage.setItem("previousMovies", JSON.stringify(prevMovies));
+    
+
     //movieNumber = Math.floor(Math.random() * (length/1.2));
     //getInfo(movies.results[movieNumber].id);
     console.log(movieNumber);
@@ -126,16 +168,34 @@ function successFunction(movies){
     //console.log(movieNumber);
     //console.log(movies.results[movieNumber]);
 
-    try {rating = movies.results[movieNumber].vote_average;
-    title = movies.results[movieNumber].title;
-    poster = "https://image.tmdb.org/t/p/w400"+movies.results[movieNumber].poster_path;
-    releaseDate = movies.results[movieNumber].release_date;
-    genreID = movies.results[movieNumber].genre_ids[0];
-    overview = movies.results[movieNumber].overview;    }
-    catch(err){
-        document.location=("index.html");
-        alert("Sorry, no movie found for your criteria! Want to try again?")
-    }
+    prevMovies = JSON.parse(sessionStorage.getItem("previousMovies"));
+
+    count = 0;
+    do{
+        count += 1;
+        if (prevMovies.length > length-1 || count > 100){
+            document.location=("index.html");
+            alert("Sorry, no more movies found for your criteria! Want to try again?");
+            break;
+        }
+        movieNumber = Math.floor(Math.random() * (Math.min(20,length-1)));
+        console.log("trying");
+        try {rating = movies.results[movieNumber].vote_average;
+        title = movies.results[movieNumber].title;
+        poster = "https://image.tmdb.org/t/p/w400"+movies.results[movieNumber].poster_path;
+        releaseDate = movies.results[movieNumber].release_date;
+        genreID = movies.results[movieNumber].genre_ids[0];
+        overview = movies.results[movieNumber].overview;    }
+        catch(err){
+            document.location=("index.html");
+            alert("Sorry, no movie found for your criteria! Want to try again?")
+        }
+    } while (prevMovies.includes(title));
+
+    prevMovies.push(title);
+    sessionStorage.setItem("previousMovies", JSON.stringify(prevMovies));
+    console.log(prevMovies);
+
     
     console.log(overview);
     if (overview.length > 325){
@@ -169,7 +229,7 @@ function successFunction(movies){
     if(temp == 28){
         genreee = "Action";
     }else if(temp == 35){
-        genreee == "Comedy";
+        genreee = "Comedy";
     }else if(temp == 18){
         genreee = "Drama";
     }else if(temp == 10749){
